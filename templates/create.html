@@ -26,11 +26,11 @@
 </div>
     <div class="mb-3">
   <label class="form-label" for="exampleFormControlInput1">Insira seu telefone:</label>
-  <input type="caracter" class="form-control" id="exampleFormControlInput2" placeholder="ex:(11)11111-1111">
+  <input type="caracter" class="form-control" id="exampleFormControlInput2" placeholder="ex:(11)11111-1111" value="{{ request.form['title'] }}">
 </div>
 <div class="mb-3">
   <label for="exampleFormControlTextarea1" class="form-label">Insira suas habilidades/Experiências:</label>
-  <input type="text" name="title" class="form-control" id="exampleFormControlInput3" placeholder"ex: sou pedreiro" value="{{ request.form['title'] }}">
+  <input type="text" name="title" class="form-control" id="exampleFormControlInput3" placeholder="ex: sou pedreiro" value="{{ request.form['title'] }}">
   <textarea name="create" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ request.form['content'] }}</textarea>
 </div>
   <br>
@@ -38,5 +38,7 @@
 <div class="form-group">
     <button type="submit" class="btn btn-primary">Enviar</button>
 </div>
-
+    </form>
+  </body>
+</html>
     <!-- Optional JavaScript; choose one of the two! -->
