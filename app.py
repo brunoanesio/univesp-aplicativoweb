@@ -25,6 +25,7 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     title = db.Column(db.String(80), nullable=False)
+    telefone = db.Column(db.Integer, nullable=False)
     content = db.Column(db.String(200), nullable=False)
 
 
@@ -52,6 +53,8 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['create']
+        # erro quando cria o post
+        # telefone = request.form['telefone']
 
         if not title:
             flash('O título é obrigatório!')
