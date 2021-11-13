@@ -25,8 +25,11 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     title = db.Column(db.String(80), nullable=False)
-    telefone = db.Column(db.Integer, nullable=False)
+    telefone = db.Column(db.Integer)
     content = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return '<title %r' % self.id
 
 
 @app.route('/')
@@ -54,12 +57,12 @@ def create():
         title = request.form['title']
         content = request.form['create']
         # erro quando cria o post
-        # telefone = request.form['telefone']
+        telefone = request.form['telefone']
 
-        if not title:
-            flash('O título é obrigatório!')
+        if not title or not content:
+            flash('É obrigatório preencher todas as informações!')
         else:
-            post = Posts(title=title, content=content)
+            post = Posts(title=title, content=content, telefone=telefone)
             db.session.add(post)
             db.session.commit()
             return redirect(url_for('index'))
