@@ -56,10 +56,9 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['create']
-        # erro quando cria o post
         telefone = request.form['telefone']
 
-        if not title or not content:
+        if not title or not content or not telefone:
             flash('É obrigatório preencher todas as informações!')
         else:
             post = Posts(title=title, content=content, telefone=telefone)
@@ -71,23 +70,38 @@ def create():
 
 
 # Erro na hora de editar o post
-# @app.route('/<int:id>/edit', methods=('GET', 'POST'))
-# def edit(id):
-#    post = get_post(id)
-#    
-#    if request.method == 'POST':
-#        title = request.form['title']
-#        content = request.form['create']
-#
-#        if not title:
-#            flash('O título é obrigatório!')
-#        else:
-#            post.title = title
-#            post.content = content
-#            db.session.commit()
-#            return redirect(url_for('index'))
-#
-#    return render_template('edit.html', post=post)
+@app.route('/edit/<int:id>', methods=('GET', 'POST'))
+def edit(id):
+    post = get_post(id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['create']
+        telefone = request.form['telefone']
+
+        if not title or not content or not telefone:
+            flash('É obrigatório preencher todas as informações!')
+        else:
+            post.title = title
+            post.content = content
+            post.telefone = telefone
+            db.session.commit()
+            return redirect(url_for('index'))
+
+    return render_template('edit.html', post=post)
+
+
+@app.route('/delete/<int:id>', methods=('GET', 'POST'))
+def delete(id):
+    post = get_post(id)
+
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    except:
+        return "Erro na hora de deletar o post."
+
 
 if __name__ == "__main__":
     app.run(debug=True)
