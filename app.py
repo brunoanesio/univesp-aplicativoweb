@@ -79,7 +79,7 @@ def edit(id):
         content = request.form['create']
         telefone = request.form['telefone']
 
-        if not title or not content or not telefone:
+        if not title or not content:
             flash('É obrigatório preencher todas as informações!')
         else:
             post.title = title
