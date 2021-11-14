@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Editar "{{ post['title'] }}" {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Nome</label>
+        <input type="text" name="title" placeholder="Edite seu nome"
+               class="form-control"
+               value="{{ request.form['title'] or post['title'] }}">
+    </div>
+        <div class="form-group">
+         <label for="telefone">Telefone</label>
+         <input type="number" name="telefone" placeholder="Edite seu número de telefone"
+                   class="form-control" value="{{ request.form['telefone'] }}">{{ request.form['telefone'] or post['telefone'] }}</input>
+    </div>
+    <div class="form-group">
+         <label for="content">Experiências</label>
+         <textarea name="create" placeholder="Edite suas experiências na área"
+                   class="form-control">{{ request.form['content'] or post['content'] }}</textarea>
+    </div>
+    <div class="form-group">
+         <button type="submit" class="btn btn-secondary">Enviar</button>
+    </div>
+</form>
+<hr>
+{% endblock %}
+
