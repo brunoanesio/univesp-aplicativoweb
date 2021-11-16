@@ -69,7 +69,6 @@ def create():
     return render_template('create.html')
 
 
-# Erro na hora de editar o post
 @app.route('/edit/<int:id>', methods=('GET', 'POST'))
 def edit(id):
     post = get_post(id)
