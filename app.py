@@ -16,7 +16,7 @@ def get_db_connection():
 
 
 app = Flask('__name__')
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = 'SECRET_KEY'
 app.config["SQLALCHEMY_DATABASE_URI"] = 'DATABASE_URL'
 app.config['SESSION_COOKIE_NAME'] = "my_session"
 db = SQLAlchemy(app)
