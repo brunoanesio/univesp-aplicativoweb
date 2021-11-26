@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import abort
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
-database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
+database_file = "postgres://zqengaugwztmer:2957421213882db43c2d51b7be8993a1cd2dad43cec97fc2cf9fe80601ffdaf9@ec2-54-157-16-125.compute-1.amazonaws.com:5432/d954gkdth7qsmv".format(os.path.join(project_dir, "database.db"))
 
 
 def get_db_connection():
