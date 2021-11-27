@@ -27,7 +27,7 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     title = db.Column(db.String(80), nullable=False)
-    telefone = db.Column(db.Unicode(11))
+    telefone = db.Column(db.String(11), nullable=False)
     content = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
