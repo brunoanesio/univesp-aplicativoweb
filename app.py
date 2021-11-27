@@ -6,9 +6,6 @@ import datetime, os, sqlite3
 project_dir = os.path.dirname(os.path.abspath(__file__))
 # SQLite DB
 # database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
-uri = os.getenv("DATABASE_URL")
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
 
 #def get_db_connection():
     #conn = sqlite3.connect('database.db')
@@ -18,7 +15,7 @@ if uri.startswith("postgres://"):
 
 app = Flask('__name__')
 app.config['SECRET_KEY'] = 'your secret key'
-app.config["SQLALCHEMY_DATABASE_URI"] = uri
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://ztsaphxlbhipmt:ad9851236f9ca2dacafd9e45e7f1d6acee9736239e679f7f8e788fa91962c9d5@ec2-18-213-133-45.compute-1.amazonaws.com:5432/d4okcrr9ivnppv"
 app.config['SESSION_COOKIE_NAME'] = "my_session"
 db = SQLAlchemy(app)
 
