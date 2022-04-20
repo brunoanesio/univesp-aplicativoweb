@@ -4,24 +4,25 @@ from werkzeug.exceptions import abort
 import datetime
 import os
 import sqlite3
+import psycopg2
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 # SQLite DB
-database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
-# uri = os.getenv("DATABASE_URL")
-# if uri.startswith("postgres://"):
-#     uri = uri.replace("postgres://", "postgresql://", 1)
+# database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
+# def get_db_connection():
+#     conn = sqlite3.connect('database.db')
+#     conn.row_factory = sqlite3.Row
+#     return conn
+# PostgreSQL
+uri = os.getenv("DATABASE_URL")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
-
-def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
+conn = psycopg2.connect(uri, sslmode='require')
 
 app = Flask('__name__')
 app.config['SECRET_KEY'] = 'your secret key'
-app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
 app.config['SESSION_COOKIE_NAME'] = "my_session"
 db = SQLAlchemy(app)
 
