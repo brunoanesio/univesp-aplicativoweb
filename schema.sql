@@ -7,3 +7,12 @@ CREATE TABLE posts (
     telefone TEXT NOT NULl,
     content TEXT NOT NULL
   );
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    pwd TEXT NOT NULL
+);

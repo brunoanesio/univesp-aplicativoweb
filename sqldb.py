@@ -11,9 +11,9 @@ cur.execute(" INSERT INTO posts (title, content, telefone) VALUES (?, ?, ?)",
             ('First post', 'content for the first post', 123)
             )
 
-cur.execute("INSERT INTO posts (title, content, telefone) VALUES (?, ?, ?)",
-            ('Second Post', 'Content for the second post', 123)
-            )
+# cur.execute("INSERT INTO user (username, email, pwd) VALUES (?, ?, ?)",
+#             ('Username', 'email@mail.com', 123456789)
+#             )
 
 connection.commit()
 connection.close()
