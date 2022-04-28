@@ -4,3 +4,4 @@ venv/*
 .vscode/*
 database.db
 pgadmin4/*
+migrations/
