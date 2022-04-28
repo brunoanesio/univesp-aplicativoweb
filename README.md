@@ -26,4 +26,6 @@ Testes automatizados:
 |Bruno Henrique Anesio Camargo
 |Cristiano Fernando Gonçalves
 |Mágilo Antunes Evangelista de Oliveira
+|Mario Fernandes Vasques Junior
+|Murilo Leonel Pinton
 |Tarcísio José da Silva
