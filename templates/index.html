@@ -1,17 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
     <h1>
         {% block title %}
             Conheça e contrate: Serviços em Dois Córregos
-        {% endblock %}
+        {% endblock title %}
     </h1>
     {% for post in posts %}
         <a href="{{ url_for('post', post_id=post['id'])}}">
             <h2>{{ post['title'] }}</h2>
-            <a href="/edit/{{ post.id }}" class="btn btn-outline-secondary btn-sm">Editar</a>
+            <a href="/edit/{{ post.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
             <a href="/delete/{{ post.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
         </a>
-        <span class="badge badge-primary" style="color:black">{{ post['created'] }}</span>
-        <hr>
+        <span class="badge badge-primary">{{ post['created'] }}</span>
+        <style>
+        .badge-primary{
+            color:black;
+        }
+        </style>
+        <hr />
     {% endfor %}
-{% endblock %}
+{% endblock content %}

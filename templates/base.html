@@ -1,71 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-    <title>
-        {% block title %} Conheça e contrate: Serviços em Dois Córregos {%
-        endblock %}
-    </title>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('login') }}">Login/Criar Conta</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Ínicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('create') }}">Registre-se
-                            aqui</a>
-                    </li>
-                </ul>
+<html lang="pt-br">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Aplicativo web" />
+        <meta name="keywords" content="aplicativo,web" />
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous"/>
+        <link href="{{ url_for('static', filename='css/style.css') }}"
+              rel="stylesheet"/>
+        <title>
+            {% block title %}
+                Conheça e contrate: Serviços em Dois Córregos
+            {% endblock title %}
+        </title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('login') }}">Login/Criar Conta</a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               href="{{ url_for('index') }}">Ínicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               href="{{ url_for('create') }}">Registre-se aqui</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {% for message in get_flashed_messages() %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <!-- Optional JavaScript          -->
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Plugin do VLibras -->
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
             </div>
         </div>
-    </nav>
-    <div class="container">
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-danger">{{ message }}</div>
-        {% endfor %} {% block content %} {% endblock %}
-    </div>
-    <!-- Optional JavaScript          -->
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <!-- Plugin do VLibras -->
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget("https://vlibras.gov.br/app");
-    </script>
-    <style>
-        .access-button {
-            width: 32% !important;
-            border-radius: 20px !important;
-            border: 2px solid #00000061 !important;
+        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+        <script>new window.VLibras.Widget("https://vlibras.gov.br/app");</script>
+        <style>
+            .access-button {
+                width: 32% !important;
+                border-radius: 20px !important;
+                border: 2px solid #00000061 !important;
         }
-    </style>
-</body>
-
+        </style>
+    </body>
 </html>

@@ -1,13 +1,20 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
     <h2>
-        {% block title %}Contrate: {{ post['title'] }}{% endblock %}
+        {% block title %}
+            Contrate: {{ post['title'] }}
+        {% endblock title %}
     </h2>
-    <span class="badge badge-primary" style="color:black">{{ post['created'] }}</span>
+    <span class="badge badge-primary">{{ post['created'] }}</span>
+    <style>
+        .badge-primary{
+            color: black;
+        }
+    </style>
     <p>
         Experiências: {{ post['content'] }}
     </p>
     <p>
         Telefone: {{ post['telefone'] }}
     </p>
-{% endblock %}
+{% endblock content %}
