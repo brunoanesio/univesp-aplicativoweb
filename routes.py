@@ -24,7 +24,7 @@ app = create_app()
 @app.before_request
 def session_handler():
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=1)
+    app.permanent_session_lifetime = timedelta(minutes=60)
 
 
 @app.route('/', methods=("GET", "POST"), strict_slashes=False)
