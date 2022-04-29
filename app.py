@@ -1,6 +1,7 @@
 import os
 
 import psycopg2
+
 # import sqlite3
 from flask import Flask
 from flask_bcrypt import Bcrypt
