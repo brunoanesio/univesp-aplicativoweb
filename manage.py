@@ -1,7 +1,8 @@
 def deploy():
+    from flask_migrate import init, migrate, stamp, upgrade
+
     from app import create_app, db
-    from flask_migrate import upgrade, migrate, init, stamp
-    from models import User, Posts
+    from models import Posts, User
 
     app = create_app()
     app.app_context().push()

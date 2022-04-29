@@ -1,9 +1,11 @@
-from app import db
-from flask_login import UserMixin
 import datetime
 
+from flask_login import UserMixin
 
-class User(UserMixin, db.Model):
+from app import db
+
+
+class User(UserMixin, db.Model):  # type: ignore
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -15,7 +17,7 @@ class User(UserMixin, db.Model):
         return '<User %r' % self.username
 
 
-class Posts(db.Model):
+class Posts(db.Model):  # type: ignore
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     title = db.Column(db.String(80), nullable=False)

@@ -1,39 +1,16 @@
-from flask import (
-    Flask,
-    render_template,
-    redirect,
-    request,
-    flash,
-    url_for,
-    session
-)
-
 from datetime import timedelta
-from sqlalchemy.exc import (
-    IntegrityError,
-    DataError,
-    DatabaseError,
-    InterfaceError,
-    InvalidRequestError,
-)
-from werkzeug.routing import BuildError
+
+from flask import flash, redirect, render_template, request, session, url_for
+from flask_bcrypt import check_password_hash
+from flask_login import login_required, login_user, logout_user
+from sqlalchemy.exc import (DatabaseError, DataError, IntegrityError,
+                            InterfaceError, InvalidRequestError)
 from werkzeug.exceptions import abort
+from werkzeug.routing import BuildError
 
-
-from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
-
-from flask_login import (
-    UserMixin,
-    login_user,
-    LoginManager,
-    current_user,
-    logout_user,
-    login_required,
-)
-
-from app import create_app, db, login_manager, bcrypt
-from models import User, Posts
+from app import bcrypt, create_app, db, login_manager
 from forms import login_form, register_form
+from models import Posts, User
 
 
 @login_manager.user_loader
@@ -70,11 +47,12 @@ def post(post_id):
 
 
 @app.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['create']
-        telefone = request.form['telefone']
+    if request.method == 'POST':  # type: ignore
+        title = request.form['title']  # type: ignore
+        content = request.form['create']  # type: ignore
+        telefone = request.form['telefone']  # type: ignore
 
         if not title or not content or not telefone:
             flash('É obrigatório preencher todas as informações!')
@@ -88,13 +66,14 @@ def create():
 
 
 @app.route('/edit/<int:id>', methods=('GET', 'POST'))
+@login_required
 def edit(id):
     post = get_post(id)
 
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['create']
-        telefone = request.form['telefone']
+    if request.method == 'POST':  # type: ignore
+        title = request.form['title']  # type: ignore
+        content = request.form['create']  # type: ignore
+        telefone = request.form['telefone']  # type: ignore
 
         if not title or not content:
             flash('É obrigatório preencher todas as informações!')
@@ -109,6 +88,7 @@ def edit(id):
 
 
 @app.route('/delete/<int:id>', methods=('GET', 'POST'))
+@login_required
 def delete(id):
     post = get_post(id)
 
@@ -116,8 +96,8 @@ def delete(id):
         db.session.delete(post)
         db.session.commit()
         return redirect(url_for('index'))
-    except:
-        return "Erro na hora de deletar o post."
+    except Exception as e:
+        flash(e, "Erro na hora de deletar o post.")
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -152,7 +132,7 @@ def register():
             pwd = form.pwd.data
             username = form.username.data
 
-            newuser = User(
+            newuser = User(  # type: ignore
                 username=username,
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode('utf-8'),
@@ -160,27 +140,27 @@ def register():
 
             db.session.add(newuser)
             db.session.commit()
-            flash(f"Conta criada com sucesso", "success")
+            flash("Conta criada com sucesso", "success")
             return redirect(url_for("login"))
 
         except InvalidRequestError:
             db.session.rollback()
-            flash(f"Algo deu errado!", "danger")
+            flash("Algo deu errado!", "danger")
         except IntegrityError:
             db.session.rollback()
-            flash(f"Usuário já existe!", "warning")
+            flash("Usuário já existe!", "warning")
         except DataError:
             db.session.rollback()
-            flash(f"Entrada invalida", "warning")
+            flash("Entrada invalida", "warning")
         except InterfaceError:
             db.session.rollback()
-            flash(f"Erro ao conectar ao banco de dados", "danger")
+            flash("Erro ao conectar ao banco de dados", "danger")
         except DatabaseError:
             db.session.rollback()
-            flash(f"Erro ao conectar ao banco de dados", "danger")
+            flash("Erro ao conectar ao banco de dados", "danger")
         except BuildError:
             db.session.rollback()
-            flash(f"Um erro ocorreu!", "danger")
+            flash("Um erro ocorreu!", "danger")
 
     return render_template("auth.html",
                            form=form,

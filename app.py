@@ -1,18 +1,12 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate
-from flask_login import (
-    UserMixin,
-    login_user,
-    LoginManager,
-    current_user,
-    logout_user,
-    login_required,
-)
 import os
+
 # import sqlite3
 import psycopg2
+from flask import Flask
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 # SQLite DB
 # project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -30,7 +24,7 @@ conn = psycopg2.connect(uri, sslmode='require')
 # Login
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
-login_manager.login_view = "login"
+login_manager.login_view = "login"  # type: ignore
 login_manager.login_message_category = "info"
 
 
