@@ -27,10 +27,10 @@ def session_handler():
     app.permanent_session_lifetime = timedelta(minutes=60)
 
 
-@app.route('/', methods=("GET", "POST"), strict_slashes=False)
+@app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     posts = Posts.query.all()
-    return render_template('index.html', posts=posts)
+    return render_template("index.html", posts=posts)
 
 
 def get_post(post_id):
@@ -40,54 +40,54 @@ def get_post(post_id):
     return post
 
 
-@app.route('/<int:post_id>')
+@app.route("/<int:post_id>")
 def post(post_id):
     post = get_post(post_id)
-    return render_template('post.html', post=post)
+    return render_template("post.html", post=post)
 
 
-@app.route('/create', methods=('GET', 'POST'))
+@app.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
-    if request.method == 'POST':  # type: ignore
-        title = request.form['title']  # type: ignore
-        content = request.form['create']  # type: ignore
-        telefone = request.form['telefone']  # type: ignore
+    if request.method == "POST":  # type: ignore
+        title = request.form["title"]  # type: ignore
+        content = request.form["create"]  # type: ignore
+        telefone = request.form["telefone"]  # type: ignore
 
         if not title or not content or not telefone:
-            flash('É obrigatório preencher todas as informações!')
+            flash("É obrigatório preencher todas as informações!")
         else:
             post = Posts(title=title, content=content, telefone=telefone)
             db.session.add(post)
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for("index"))
 
-    return render_template('create.html')
+    return render_template("create.html")
 
 
-@app.route('/edit/<int:id>', methods=('GET', 'POST'))
+@app.route("/edit/<int:id>", methods=("GET", "POST"))
 @login_required
 def edit(id):
     post = get_post(id)
 
-    if request.method == 'POST':  # type: ignore
-        title = request.form['title']  # type: ignore
-        content = request.form['create']  # type: ignore
-        telefone = request.form['telefone']  # type: ignore
+    if request.method == "POST":  # type: ignore
+        title = request.form["title"]  # type: ignore
+        content = request.form["create"]  # type: ignore
+        telefone = request.form["telefone"]  # type: ignore
 
         if not title or not content:
-            flash('É obrigatório preencher todas as informações!')
+            flash("É obrigatório preencher todas as informações!")
         else:
             post.title = title
             post.content = content
             post.telefone = telefone
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for("index"))
 
-    return render_template('edit.html', post=post)
+    return render_template("edit.html", post=post)
 
 
-@app.route('/delete/<int:id>', methods=('GET', 'POST'))
+@app.route("/delete/<int:id>", methods=("GET", "POST"))
 @login_required
 def delete(id):
     post = get_post(id)
@@ -95,7 +95,7 @@ def delete(id):
     try:
         db.session.delete(post)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     except Exception as e:
         flash(e, "Erro na hora de deletar o post.")
 
@@ -109,18 +109,15 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if check_password_hash(user.pwd, form.pwd.data):
                 login_user(user)
-                return redirect(url_for('index'))
+                return redirect(url_for("index"))
             else:
                 flash("Nome ou senha invalidos!", "danger")
         except Exception as e:
             flash(e, "danger")
 
-    return render_template("auth.html",
-                           form=form,
-                           text="Login",
-                           title="Login",
-                           btn_action="Login"
-                           )
+    return render_template(
+        "auth.html", form=form, text="Login", title="Login", btn_action="Login"
+    )
 
 
 @app.route("/register/", methods=("GET", "POST"), strict_slashes=False)
@@ -135,7 +132,7 @@ def register():
             newuser = User(  # type: ignore
                 username=username,
                 email=email,
-                pwd=bcrypt.generate_password_hash(pwd).decode('utf-8'),
+                pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
             )
 
             db.session.add(newuser)
@@ -162,19 +159,20 @@ def register():
             db.session.rollback()
             flash("Um erro ocorreu!", "danger")
 
-    return render_template("auth.html",
-                           form=form,
-                           text="Crie uma conta",
-                           title="Criação de conta",
-                           btn_action="Criar conta"
-                           )
+    return render_template(
+        "auth.html",
+        form=form,
+        text="Crie uma conta",
+        title="Criação de conta",
+        btn_action="Criar conta",
+    )
 
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
