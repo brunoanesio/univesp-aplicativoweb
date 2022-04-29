@@ -1,7 +1,7 @@
 import os
 
-# import sqlite3
 import psycopg2
+# import sqlite3
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -19,7 +19,7 @@ from flask_sqlalchemy import SQLAlchemy
 uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
-conn = psycopg2.connect(uri, sslmode='require')
+conn = psycopg2.connect(uri, sslmode="require")
 
 # Login
 login_manager = LoginManager()
@@ -29,12 +29,12 @@ login_manager.login_message_category = "info"
 
 
 def create_app():
-    app = Flask('__name__')
+    app = Flask("__name__")
 
-    app.config['SECRET_KEY'] = 'your secret key'
+    app.config["SECRET_KEY"] = "your secret key"
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
-    app.config['SESSION_COOKIE_NAME'] = "my_session"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config["SESSION_COOKIE_NAME"] = "my_session"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
     login_manager.init_app(app)
     db.init_app(app)
