@@ -52,6 +52,13 @@
                                aria-current="page"
                                href="{{ url_for('create') }}">Registre-se aqui</a>
                         </li>
+                        {% if current_user.has_role('admin') %}
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   aria-current="page"
+                                   href="{{ url_for('dashboard') }}">Dashboard</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
