@@ -9,9 +9,7 @@ from models import User
 class login_form(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(), Length(1, 64)])
     pwd = PasswordField(validators=[InputRequired(), Length(min=8, max=72)])
-    username = StringField(
-        validators=[Optional()]
-    )
+    username = StringField(validators=[Optional()])
 
 
 class register_form(FlaskForm):

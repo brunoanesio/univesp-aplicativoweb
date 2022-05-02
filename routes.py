@@ -2,23 +2,39 @@ from datetime import timedelta
 
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_user, logout_user
+from flask_security import (Security, SQLAlchemyUserDatastore, login_required,
+                            roles_accepted)
 from sqlalchemy.exc import (DatabaseError, DataError, IntegrityError,
                             InterfaceError, InvalidRequestError)
 from werkzeug.exceptions import abort
 from werkzeug.routing import BuildError
 
-from app import bcrypt, create_app, db, login_manager
+from app import (bcrypt, create_app, db,  # TODO: arrumar flask-rbac
+                 login_manager)
 from forms import login_form, register_form
-from models import Posts, User
+from models import Posts, Role, User
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# TODO: arrumar flask-rab
+# @rbac.set_user_loader
+# def get_current_user():
+#     return current_user._get_current_object()
+
 
 app = create_app()
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
+
+
+@app.before_first_request
+def create_roles():
+    user_datastore.create_role(name='admin')
+    user_datastore.create_role(name='guest')
 
 
 @app.before_request
@@ -31,6 +47,14 @@ def session_handler():
 def index():
     posts = Posts.query.all()
     return render_template("index.html", posts=posts)
+
+
+@app.route("/dashboard", methods=("GET", "POST"))
+@login_required
+@roles_accepted('admin')
+def dashboard():
+    posts = Posts.query.all()
+    return render_template("admin.html", posts=posts)
 
 
 def get_post(post_id):
@@ -47,7 +71,6 @@ def post(post_id):
 
 
 @app.route("/create", methods=("GET", "POST"))
-@login_required
 def create():
     if request.method == "POST":  # type: ignore
         title = request.form["title"]  # type: ignore
@@ -55,7 +78,7 @@ def create():
         telefone = request.form["telefone"]  # type: ignore
 
         if not title or not content or not telefone:
-            flash("É obrigatório preencher todas as informações!")
+            flash("É obrigatório preencher todas as informações!", "info")
         else:
             post = Posts(title=title, content=content, telefone=telefone)
             db.session.add(post)
@@ -76,7 +99,7 @@ def edit(id):
         telefone = request.form["telefone"]  # type: ignore
 
         if not title or not content:
-            flash("É obrigatório preencher todas as informações!")
+            flash("É obrigatório preencher todas as informações!", "info")
         else:
             post.title = title
             post.content = content
@@ -133,7 +156,10 @@ def register():
                 username=username,
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
+                roles=[]
             )
+            default_role = user_datastore.find_or_create_role('guest')
+            user_datastore.add_role_to_user(newuser, default_role)
 
             db.session.add(newuser)
             db.session.commit()

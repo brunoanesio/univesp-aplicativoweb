@@ -1,12 +1,13 @@
 import os
 
 import psycopg2
-
 # import sqlite3
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+# TODO: arrumar flask-rbac
+# from flask_rbac import RBAC
 from flask_sqlalchemy import SQLAlchemy
 
 # SQLite DB
@@ -28,6 +29,12 @@ login_manager.session_protection = "strong"
 login_manager.login_view = "login"  # type: ignore
 login_manager.login_message_category = "info"
 
+db = SQLAlchemy()
+# TODO: arrumar flask-rbac
+# rbac = RBAC()
+migrate = Migrate()
+bcrypt = Bcrypt()
+
 
 def create_app():
     app = Flask("__name__")
@@ -39,12 +46,9 @@ def create_app():
 
     login_manager.init_app(app)
     db.init_app(app)
+    # TODO: arrumar flask-rbac
+    # rbac.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
 
     return app
-
-
-db = SQLAlchemy()
-migrate = Migrate()
-bcrypt = Bcrypt()
