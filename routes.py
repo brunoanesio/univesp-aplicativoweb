@@ -71,6 +71,7 @@ def post(post_id):
 
 
 @app.route("/create", methods=("GET", "POST"))
+@login_required
 def create():
     if request.method == "POST":  # type: ignore
         title = request.form["title"]  # type: ignore
@@ -139,7 +140,7 @@ def login():
             flash(e, "danger")
 
     return render_template(
-        "auth.html", form=form, text="Login", title="Login", btn_action="Login"
+        "login.html", form=form, text="Login", title="Login", btn_action="Login"
     )
 
 
@@ -186,7 +187,7 @@ def register():
             flash("Um erro ocorreu!", "danger")
 
     return render_template(
-        "auth.html",
+        "login.html",
         form=form,
         text="Crie uma conta",
         title="Criação de conta",
@@ -198,6 +199,11 @@ def register():
 @login_required
 def logout():
     logout_user()
+    return redirect(url_for("login"))
+
+# TODO: redirecionar corretamente para pagina de login
+@login_manager.unauthorized_handler
+def unauthorized_callback():
     return redirect(url_for("login"))
 
 
