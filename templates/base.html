@@ -22,7 +22,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('login') }}">Login/Criar Conta</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Ínicio</a>
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -34,11 +34,19 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active"
-                               aria-current="page"
-                               href="{{ url_for('index') }}">Ínicio</a>
-                        </li>
+                        {% if current_user.is_anonymous %}
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   aria-current="page"
+                                   href="{{ url_for('login') }}">Login/Criar Conta</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   aria-current="page"
+                                   href="{{ url_for('logout') }}">Logout</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link active"
                                aria-current="page"
