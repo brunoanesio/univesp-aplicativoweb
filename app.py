@@ -1,7 +1,7 @@
 import os
+# import psycopg2
+import sqlite3
 
-import psycopg2
-# import sqlite3
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -11,17 +11,20 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 # SQLite DB
-# project_dir = os.path.dirname(os.path.abspath(__file__))
-# database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
-# def get_db_connection():
-#     conn = sqlite3.connect('database.db')
-#     conn.row_factory = sqlite3.Row
-#     return conn
+project_dir = os.path.dirname(os.path.abspath(__file__))
+database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
+
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 # PostgreSQL
-uri = os.getenv("DATABASE_URL")
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-conn = psycopg2.connect(uri, sslmode="require")
+# uri = os.getenv("DATABASE_URL")
+# if uri.startswith("postgres://"):
+#     uri = uri.replace("postgres://", "postgresql://", 1)
+# conn = psycopg2.connect(uri, sslmode="require")
+
 
 # Login
 login_manager = LoginManager()
@@ -40,7 +43,7 @@ def create_app():
     app = Flask("__name__")
 
     app.config["SECRET_KEY"] = "your secret key"
-    app.config["SQLALCHEMY_DATABASE_URI"] = uri
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_file
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
