@@ -35,13 +35,13 @@
                            value="{{ request.form['title'] }}"/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="exampleFormControlInput1">Insira seu telefone:</label>
+                    <label class="form-label" for="exampleFormControlInput2">Insira seu telefone:</label>
                     <input type="number"
                            name="telefone"
                            class="form-control"
                            id="exampleFormControlInput2"
-                           placeholder="ex: 14999012345"/>
-                    {{ request.form['telefone'] }}
+                           placeholder="ex: 14999012345"
+                           value="{{ request.form['telefone'] }}"/>
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">Insira suas habilidades/experiências:</label>
