@@ -8,8 +8,6 @@
     {% for post in posts %}
         <a href="{{ url_for('post', post_id=post['id'])}}">
             <h2>{{ post['title'] }}</h2>
-            <a href="/edit/{{ post.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
-            <a href="/delete/{{ post.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
         </a>
         <span class="badge badge-primary">{{ post['created'] }}</span>
         <style>
