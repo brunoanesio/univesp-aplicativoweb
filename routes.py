@@ -1,12 +1,13 @@
+import uuid
 from datetime import timedelta
 
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
-from flask_login import login_user, logout_user
-from flask_security import (Security, SQLAlchemyUserDatastore, current_user,
-                            login_required, roles_accepted)
-from sqlalchemy.exc import (DatabaseError, DataError, IntegrityError,
-                            InterfaceError, InvalidRequestError)
+from flask_login import current_user, login_required, login_user, logout_user
+from flask_security.core import Security
+from flask_security.datastore import SQLAlchemyUserDatastore
+from flask_security.decorators import roles_accepted
+from sqlalchemy.exc import DatabaseError, DataError, InvalidRequestError
 from werkzeug.exceptions import abort
 from werkzeug.routing import BuildError
 
@@ -160,7 +161,8 @@ def register():
                 username=username,
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
-                roles=[]
+                roles=[],
+                fs_uniquifier=uuid.uuid4().hex
             )
             default_role = user_datastore.find_or_create_role('guest')
             user_datastore.add_role_to_user(newuser, default_role)
@@ -173,15 +175,9 @@ def register():
         except InvalidRequestError:
             db.session.rollback()
             flash("Algo deu errado!", "danger")
-        except IntegrityError:
-            db.session.rollback()
-            flash("Usuário já existe!", "warning")
         except DataError:
             db.session.rollback()
             flash("Entrada invalida", "warning")
-        except InterfaceError:
-            db.session.rollback()
-            flash("Erro ao conectar ao banco de dados", "danger")
         except DatabaseError:
             db.session.rollback()
             flash("Erro ao conectar ao banco de dados", "danger")
