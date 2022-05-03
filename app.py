@@ -7,10 +7,7 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
-# TODO: arrumar flask-rbac
-# from flask_rbac import RBAC
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CSRFProtect
 
 # SQLite DB
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -35,12 +32,8 @@ login_manager.login_view = "login"  # type: ignore
 login_manager.login_message_category = "info"
 
 db = SQLAlchemy()
-# TODO: arrumar flask-rbac
-# rbac = RBAC()
 migrate = Migrate()
 bcrypt = Bcrypt()
-# TODO: arrumar token csrf
-# csrf = CSRFProtect()
 secret_key = secrets.token_hex(16)
 
 
@@ -58,11 +51,7 @@ def create_app():
     # init flask extensions
     login_manager.init_app(app)
     db.init_app(app)
-    # TODO: arrumar flask-rbac
-    # rbac.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
-    # TODO: arrumar token csrf
-    # csrf.init_app(app)
 
     return app
