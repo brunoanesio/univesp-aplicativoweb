@@ -3,15 +3,15 @@ from datetime import timedelta
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
 from flask_login import login_user, logout_user
-from flask_security import (Security, SQLAlchemyUserDatastore, login_required,
-                            roles_accepted)
+from flask_security import (Security, SQLAlchemyUserDatastore, current_user,
+                            login_required, roles_accepted)
 from sqlalchemy.exc import (DatabaseError, DataError, IntegrityError,
                             InterfaceError, InvalidRequestError)
 from werkzeug.exceptions import abort
 from werkzeug.routing import BuildError
 
-from app import (bcrypt, create_app, db,  # TODO: arrumar flask-rbac
-                 login_manager)
+# TODO: arrumar flask-rbac
+from app import bcrypt, create_app, db, login_manager  # ,rbac
 from forms import login_form, register_form
 from models import Posts, Role, User
 
@@ -46,7 +46,10 @@ def session_handler():
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     posts = Posts.query.all()
-    return render_template("index.html", posts=posts)
+    if current_user.has_role('admin'):
+        return render_template("dashboard.html", posts=posts)
+    else:
+        return render_template("index.html", posts=posts)
 
 
 @app.route("/dashboard", methods=("GET", "POST"))
@@ -54,7 +57,7 @@ def index():
 @roles_accepted('admin')
 def dashboard():
     posts = Posts.query.all()
-    return render_template("admin.html", posts=posts)
+    return render_template("dashboard.html", posts=posts)
 
 
 def get_post(post_id):
@@ -202,8 +205,10 @@ def logout():
     return redirect(url_for("login"))
 
 # TODO: redirecionar corretamente para pagina de login
+
+
 @login_manager.unauthorized_handler
-def unauthorized_callback():
+def unauthorized():
     return redirect(url_for("login"))
 
 
