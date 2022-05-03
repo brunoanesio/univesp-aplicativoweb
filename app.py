@@ -1,8 +1,8 @@
 import os
 import secrets
-# import psycopg2
 import sqlite3
 
+# import psycopg2
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -39,7 +39,8 @@ db = SQLAlchemy()
 # rbac = RBAC()
 migrate = Migrate()
 bcrypt = Bcrypt()
-csrf = CSRFProtect()
+# TODO: arrumar token csrf
+# csrf = CSRFProtect()
 secret_key = secrets.token_hex(16)
 
 
@@ -47,7 +48,7 @@ def create_app():
     app = Flask("__name__")
 
     # app configs
-    app.config["SECRET_KEY"] = "your secret key"
+    app.config["SECRET_KEY"] = secret_key
     app.config["SQLALCHEMY_DATABASE_URI"] = database_file
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
@@ -61,6 +62,7 @@ def create_app():
     # rbac.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
-    csrf.init_app(app)
+    # TODO: arrumar token csrf
+    # csrf.init_app(app)
 
     return app
