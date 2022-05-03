@@ -47,11 +47,13 @@
                                    href="{{ url_for('logout') }}">Logout</a>
                             </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link active"
-                               aria-current="page"
-                               href="{{ url_for('create') }}">Registre-se aqui</a>
-                        </li>
+                        {% if current_user.is_active %}
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   aria-current="page"
+                                   href="{{ url_for('create') }}">Registre-se aqui</a>
+                            </li>
+                        {% endif %}
                         {% if current_user.has_role('admin') %}
                             <li class="nav-item">
                                 <a class="nav-link active"
