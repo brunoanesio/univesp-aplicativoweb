@@ -1,6 +1,6 @@
 import datetime
 
-from flask_security import RoleMixin, UserMixin
+from flask_security.core import RoleMixin, UserMixin
 
 from app import db
 
@@ -28,6 +28,7 @@ class User(db.Model, UserMixin):  # type: ignore
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     pwd = db.Column(db.String(300), nullable=False, unique=True)
+    fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False)
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='joined'))
 
