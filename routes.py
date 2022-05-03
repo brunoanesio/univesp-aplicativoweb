@@ -21,6 +21,7 @@ from models import Posts, Role, User
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 # TODO: arrumar flask-rab
 # @rbac.set_user_loader
 # def get_current_user():
@@ -34,8 +35,8 @@ security = Security(app, user_datastore)
 
 @app.before_first_request
 def create_roles():
-    user_datastore.create_role(name='admin')
-    user_datastore.create_role(name='guest')
+    user_datastore.create_role(name="admin")
+    user_datastore.create_role(name="guest")
 
 
 @app.before_request
@@ -47,15 +48,12 @@ def session_handler():
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
     posts = Posts.query.all()
-    if current_user.has_role('admin'):
-        return render_template("dashboard.html", posts=posts)
-    else:
-        return render_template("index.html", posts=posts)
+    return render_template("index.html", posts=posts)
 
 
 @app.route("/dashboard", methods=("GET", "POST"))
 @login_required
-@roles_accepted('admin')
+@roles_accepted("admin")
 def dashboard():
     posts = Posts.query.all()
     return render_template("dashboard.html", posts=posts)
@@ -162,9 +160,9 @@ def register():
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
                 roles=[],
-                fs_uniquifier=uuid.uuid4().hex
+                fs_uniquifier=uuid.uuid4().hex,
             )
-            default_role = user_datastore.find_or_create_role('guest')
+            default_role = user_datastore.find_or_create_role("guest")
             user_datastore.add_role_to_user(newuser, default_role)
 
             db.session.add(newuser)
@@ -199,6 +197,7 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for("login"))
+
 
 # TODO: redirecionar corretamente para pagina de login
 
