@@ -11,8 +11,7 @@ from sqlalchemy.exc import DatabaseError, DataError, InvalidRequestError
 from werkzeug.exceptions import abort
 from werkzeug.routing import BuildError
 
-# TODO: arrumar flask-rbac
-from app import bcrypt, create_app, db, login_manager  # ,rbac
+from app import bcrypt, create_app, db, login_manager
 from forms import login_form, register_form
 from models import Posts, Role, User
 
@@ -20,12 +19,6 @@ from models import Posts, Role, User
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-# TODO: arrumar flask-rab
-# @rbac.set_user_loader
-# def get_current_user():
-#     return current_user._get_current_object()
 
 
 app = create_app()
