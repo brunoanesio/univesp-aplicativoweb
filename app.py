@@ -1,4 +1,5 @@
 import os
+import secrets
 # import psycopg2
 import sqlite3
 
@@ -9,6 +10,7 @@ from flask_migrate import Migrate
 # TODO: arrumar flask-rbac
 # from flask_rbac import RBAC
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
 
 # SQLite DB
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -37,21 +39,28 @@ db = SQLAlchemy()
 # rbac = RBAC()
 migrate = Migrate()
 bcrypt = Bcrypt()
+csrf = CSRFProtect()
+secret_key = secrets.token_hex(16)
 
 
 def create_app():
     app = Flask("__name__")
 
+    # app configs
     app.config["SECRET_KEY"] = "your secret key"
     app.config["SQLALCHEMY_DATABASE_URI"] = database_file
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    # jinja config
+    app.jinja_env.autoescape = True
 
+    # init flask extensions
     login_manager.init_app(app)
     db.init_app(app)
     # TODO: arrumar flask-rbac
     # rbac.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
+    csrf.init_app(app)
 
     return app
