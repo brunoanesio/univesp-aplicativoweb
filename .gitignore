@@ -5,3 +5,5 @@ venv/*
 database.db
 pgadmin4/*
 migrations/
+
+.ropeproject
