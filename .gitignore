@@ -7,3 +7,4 @@ pgadmin4/*
 migrations/
 
 .ropeproject
+.dir-locals.el
