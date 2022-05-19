@@ -44,7 +44,8 @@
                             <li class="nav-item">
                                 <a class="nav-link active"
                                    aria-current="page"
-                                   href="{{ url_for('logout') }}">Logout</a>
+                                   href="{{ url_for('logout') }}"
+                                   onclick="window.confirm('Deseja realmente sair?')">Logout</a>
                             </li>
                         {% endif %}
                         {% if current_user.is_active %}
@@ -80,11 +81,6 @@
             <div vw-access-button class="active"></div>
             <div vw-plugin-wrapper>
                 <div class="vw-plugin-top-wrapper"></div>
-                <button id="btn" onclick="window.confirm('Deseja realmente sair?')">Sair</button>
-                                <script>
-                                    window.alert("Seja bem-vindo(a) ao Conheça e Contrate! Procure um prestador de serviços ou inscreva-se!")
-
-                                </script>
             </div>
         </div>
         <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
