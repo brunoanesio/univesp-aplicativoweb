@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
-from flask_login import current_user, login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 from flask_security.decorators import roles_accepted
@@ -193,8 +193,6 @@ def logout():
 
 
 # TODO: redirecionar corretamente para pagina de login
-
-
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for("login"))
