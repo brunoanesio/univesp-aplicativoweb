@@ -28,7 +28,7 @@
                     </div>
                     {% if request.path == '/register/' %}
                         <div class="form-group mb-3">
-                            {{ form.username(class_="form-control",placeholder="Nome, somente letras, números, pontos ou sublinhados")}}
+                            {{ form.username(class_="form-control",placeholder="Nome")}}
                         </div>
                         {% for error in form.username.errors %}
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -40,7 +40,7 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    <div class="form-group mb-3">{{ form.email(class_="form-control",placeholder="Email, ex: exemplo@mail.com")}}</div>
+                    <div class="form-group mb-3">{{ form.email(class_="form-control",placeholder="Email")}}</div>
                     {% for error in form.email.errors %}
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             {{ error }}
@@ -51,7 +51,7 @@
                         </div>
                     {% endfor %}
                     <div class="form-group mb-3">
-                        {{ form.pwd(class_="form-control",placeholder="Senha, use uma senha com números, letras e símbolos")}}
+                        {{ form.pwd(class_="form-control",placeholder="Senha")}}
                     </div>
                     {% for error in form.pwd.errors %}
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
