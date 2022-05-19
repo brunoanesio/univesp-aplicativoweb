@@ -5,9 +5,9 @@ from flask_security.core import RoleMixin, UserMixin
 from app import db
 
 roles_users = db.Table(
-    'roles_users',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+    "roles_users",
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
+    db.Column("role_id", db.Integer, db.ForeignKey("role.id")),
 )
 
 
@@ -29,8 +29,9 @@ class User(db.Model, UserMixin):  # type: ignore
     email = db.Column(db.String(120), unique=True, nullable=False)
     pwd = db.Column(db.String(300), nullable=False, unique=True)
     fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False)
-    roles = db.relationship('Role', secondary=roles_users,
-                            backref=db.backref('users', lazy='joined'))
+    roles = db.relationship(
+        "Role", secondary=roles_users, backref=db.backref("users", lazy="joined")
+    )
 
     def active(self):
         return True
