@@ -15,9 +15,11 @@ database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
 
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
     return conn
+
+
 # PostgreSQL
 # uri = os.getenv("DATABASE_URL")
 # if uri.startswith("postgres://"):
