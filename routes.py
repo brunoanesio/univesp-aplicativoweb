@@ -11,7 +11,7 @@ from sqlalchemy.exc import DatabaseError, DataError, InvalidRequestError
 from werkzeug.exceptions import abort
 from werkzeug.routing import BuildError
 
-from app import bcrypt, create_app, db, login_manager
+from app import bcrypt, create_app, db, login_manager, oauth
 from forms import login_form, register_form
 from models import Posts, Role, User
 
@@ -148,7 +148,7 @@ def register():
             pwd = form.pwd.data
             username = form.username.data
 
-            newuser = User(  # type: ignore
+            newuser = User(
                 username=username,
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
@@ -183,6 +183,42 @@ def register():
         title="Criação de conta",
         btn_action="Criar conta",
     )
+
+
+@app.route("/login/google")
+def google():
+    CONF_URL = "https://accounts.google.com/.well-known/openid-configuration"
+    oauth.register(
+        name="google",
+        server_metadata_url=CONF_URL,
+        client_kwargs={"scope": "openid email profile"},
+    )
+    redirect_uri = url_for("auth", _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+
+@app.route("/login/google/auth")
+def auth():
+    token = oauth.google.authorize_access_token()
+    resp = token.get("userinfo")
+    name = resp.name
+    email = resp.email
+    pwd = resp.sub
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        user = User(
+            username=name,
+            email=email,
+            pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
+            roles=[],
+            fs_uniquifier=uuid.uuid4().hex,
+        )
+        default_role = user_datastore.find_or_create_role("guest")
+        user_datastore.add_role_to_user(user, default_role)
+        db.session.add(user)
+        db.session.commit()
+    login_user(user)
+    return redirect(url_for("index"))
 
 
 @app.route("/logout")

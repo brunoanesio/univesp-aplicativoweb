@@ -27,9 +27,7 @@
                         <h5 class="text-primary">{{ text }}</h5>
                     </div>
                     {% if request.path == '/register/' %}
-                        <div class="form-group mb-3">
-                            {{ form.username(class_="form-control",placeholder="Nome")}}
-                        </div>
+                        <div class="form-group mb-3">{{ form.username(class_="form-control",placeholder="Nome")}}</div>
                         {% for error in form.username.errors %}
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 {{ error }}
@@ -50,9 +48,7 @@
                                     aria-label="Close"></button>
                         </div>
                     {% endfor %}
-                    <div class="form-group mb-3">
-                        {{ form.pwd(class_="form-control",placeholder="Senha")}}
-                    </div>
+                    <div class="form-group mb-3">{{ form.pwd(class_="form-control",placeholder="Senha")}}</div>
                     {% for error in form.pwd.errors %}
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             {{ error }}
@@ -87,9 +83,23 @@
                                 <a href="{{ url_for('login')}}">Login</a>
                             {% endif %}
                         </p>
-                    </div>
-                </form>
-            </div>
+                        <div class="or-container">
+                            <div class="line-separator"></div>
+                            <div class="or-label">ou</div>
+                            <div class="line-separator"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-lg btn-google btn-block btn-outline"
+                                   href="{{ url_for('google') }}">
+                                    <img src="https://img.icons8.com/color/16/000000/google-logo.png"/>
+                                Logar com Google</a>
+                            </div>
+                        </div>
+                    </br>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 {% endblock content %}
