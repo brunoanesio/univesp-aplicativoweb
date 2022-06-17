@@ -193,12 +193,12 @@ def google():
         server_metadata_url=CONF_URL,
         client_kwargs={"scope": "openid email profile"},
     )
-    redirect_uri = url_for("auth", _external=True)
+    redirect_uri = url_for("google_auth", _external=True)
     return oauth.google.authorize_redirect(redirect_uri)
 
 
 @app.route("/login/google/auth")
-def auth():
+def google_auth():
     token = oauth.google.authorize_access_token()
     resp = token.get("userinfo")
     name = resp.name
