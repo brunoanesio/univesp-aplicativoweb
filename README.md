@@ -8,7 +8,7 @@ Resumo: Facilitar e tornar mais ágil o contato entre o prestador de serviço de
 
 Framework usado: Flask
 
-API utilizada:
+API utilizada: OAuthlib para login com Google
 
 Banco de dados: PostgreSQL
 
