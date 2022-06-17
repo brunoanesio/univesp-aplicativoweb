@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, ValidationError
-from wtforms.validators import (Email, EqualTo, InputRequired, Length,
-                                Optional, Regexp)
+from wtforms.validators import Email, EqualTo, InputRequired, Length, Optional, Regexp
 
 from models import User
 
@@ -20,7 +19,7 @@ class register_form(FlaskForm):
             Regexp(
                 "^[A-Za-z][A-Za-z0-9_.]*$",
                 0,
-                "Nome pode ter somente letras,""números, pontos ou sublinhado",
+                "Nome pode ter somente letras," "números, pontos ou sublinhado",
             ),
         ]
     )

@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from authlib.integrations.flask_client import OAuth
 
 # SQLite DB
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +37,7 @@ login_manager.login_message_category = "info"
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
+oauth = OAuth()
 secret_key = secrets.token_hex(16)
 
 
@@ -47,6 +49,8 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = database_file
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    app.config["GOOGLE_CLIENT_ID"] = os.getenv("GOOGLE_CLIENT_ID")
+    app.config["GOOGLE_CLIENT_SECRET"] = os.getenv("GOOGLE_CLIENT_SECRET")
     # jinja config
     app.jinja_env.autoescape = True
 
@@ -55,5 +59,6 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
+    oauth.init_app(app)
 
     return app
