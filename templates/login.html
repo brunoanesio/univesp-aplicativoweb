@@ -83,37 +83,16 @@
                                 <a href="{{ url_for('login')}}">Login</a>
                             {% endif %}
                         </p>
-                        <div class="or-container">
-                            <div class="line-separator"></div>
-                            <div class="or-label">ou</div>
-                            <div class="line-separator"></div>
+                        <hr class="my-4"/>
+                        <div class="d-grid mb-2">
+                            <a class="btn btn-lg btn-google btn-block btn-outline"
+                               href="{{ url_for('google') }}">
+                                <i class="fab fa-google me-2"></i>
+                            Entrar com o Google</a>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a class="btn btn-lg btn-google btn-block btn-outline"
-                                   href="{{ url_for('google') }}">
-                                    <img src="https://img.icons8.com/color/344/google-logo.png"
-                                         alt="google"
-                                         height="25"
-                                         width="25"/>
-                                Logar com Google</a>
-                            </div>
-                        </div>
-                        <!-- <div class="row"> -->
-                        <!--     <div class="col-md-12"> -->
-                        <!--         <a class="btn btn-lg btn-facebook btn-block btn-outline" -->
-                        <!--            href="{{ url_for('index') }}"> -->
-                        <!--             <img src="https://img.icons8.com/color/344/facebook-new.png" -->
-                        <!--                  alt="facebook" -->
-                        <!--                  height="25" -->
-                        <!--                  width="25"/> -->
-                        <!--         Logar com Facebook</a> -->
-                        <!--     </div> -->
-                        <!-- </div> -->
-                    </br>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock content %}
