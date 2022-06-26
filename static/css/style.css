@@ -66,6 +66,9 @@ div.container-fluid {
   background-position: top;
   background-position: 1.5% 40%;
 }
+div.card {
+  border-radius: 6px;
+}
 .btn-login {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;
