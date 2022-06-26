@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="aligncenter">
-        <img src="{{ url_for('static', filename='images/teste.jpg') }}"
-             alt="teste"/>
-    </div>
     <h1>
         {% block title %}
             Conheça e contrate: Serviços em Dois Córregos
         {% endblock title %}
     </h1>
     {% for post in posts %}
-        <a href="{{ url_for('post', post_id=post['id'])}}" class="special">
+        <a href="{{ url_for('post', post_id=post['id'])}}">
             <h2>{{ post['title'] }}</h2>
+            <a href="/edit/{{ post.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
+            <a href="/delete/{{ post.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
         </a>
         <span class="badge badge-primary">{{ post['created'] }}</span>
         <style>
@@ -21,7 +19,4 @@
         </style>
         <hr />
     {% endfor %}
-    <script>
-        window.alert("Seja bem-vindo(a) ao Conheça e Contrate! Procure um prestador de serviços ou inscreva-se!")
-    </script>
 {% endblock content %}
