@@ -1,20 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>
+    <title>
         {% block title %}
             Contrate: {{ post['title'] }}
         {% endblock title %}
-    </h2>
-    <span class="badge badge-primary">{{ post['created'] }}</span>
-    <style>
-        .badge-primary{
-            color: black;
-        }
-    </style>
-    <p>
-        Experiências: {{ post['content'] }}
-    </p>
-    <p>
-        Telefone: {{ post['telefone'] }}
-    </p>
+    </title>
+    <body>
+        <br/>
+        <h2>Contrate: {{ post['title'] }}</h2>
+        <br/>
+        <span class="badge badge-primary">{{ post['created'] }}</span>
+        <style>
+            .badge-primary {
+                color: black;
+            }
+        </style>
+        <p class="exp">Experiências: {{ post['content'] }}</p>
+        <p class="tel">Telefone: {{ post['telefone'] }}</p>
+        <style>
+            .exp, .tel {
+                background-color: white;
+                border-radius: 6px;
+            }
+        </style>
+    </body>
 {% endblock content %}
