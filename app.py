@@ -46,7 +46,7 @@ def create_app():
     app = Flask("__name__")
 
     # app configs
-    app.config["SECRET_KEY"] = secret_key
+    app.config["SECRET_KEY"] = "chave-secreta"
     app.config["SQLALCHEMY_DATABASE_URI"] = uri
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
