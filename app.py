@@ -1,8 +1,9 @@
 import os
 import secrets
-import sqlite3
 
-# import psycopg2
+# import sqlite3
+
+import psycopg2
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -11,21 +12,21 @@ from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 
 # SQLite DB
-project_dir = os.path.dirname(os.path.abspath(__file__))
-database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
-
-
-def get_db_connection():
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+# project_dir = os.path.dirname(os.path.abspath(__file__))
+# database_file = "sqlite:///{}".format(os.path.join(project_dir, "database.db"))
+#
+#
+# def get_db_connection():
+#     conn = sqlite3.connect("database.db")
+#     conn.row_factory = sqlite3.Row
+#     return conn
 
 
 # PostgreSQL
-# uri = os.getenv("DATABASE_URL")
-# if uri.startswith("postgres://"):
-#     uri = uri.replace("postgres://", "postgresql://", 1)
-# conn = psycopg2.connect(uri, sslmode="require")
+uri = os.getenv("DATABASE_URL")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+conn = psycopg2.connect(uri, sslmode="require")
 
 
 # Login
@@ -46,7 +47,7 @@ def create_app():
 
     # app configs
     app.config["SECRET_KEY"] = secret_key
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+    app.config["SQLALCHEMY_DATABASE_URI"] = uri
     app.config["SESSION_COOKIE_NAME"] = "my_session"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
     app.config["GOOGLE_CLIENT_ID"] = os.getenv("GOOGLE_CLIENT_ID")
