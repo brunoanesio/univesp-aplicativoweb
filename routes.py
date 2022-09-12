@@ -1,7 +1,7 @@
 import uuid
 from datetime import timedelta
 
-from flask import flash, redirect, render_template, request, session, url_for
+from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
 from flask_login import login_required, login_user, logout_user
 from flask_security.core import Security
@@ -13,7 +13,15 @@ from werkzeug.routing import BuildError
 
 from app import bcrypt, create_app, db, login_manager, oauth
 from forms import login_form, register_form
-from models import Posts, Role, User
+from models import (
+    Posts,
+    Role,
+    User,
+    post_schema,
+    posts_schema,
+    user_schema,
+    users_schema,
+)
 
 
 @login_manager.user_loader
@@ -44,7 +52,7 @@ def index():
     return render_template("index.html", posts=posts)
 
 
-@app.route("/dashboard", methods=("GET", "POST"))
+@app.route("/admin/dashboard", methods=("GET", "POST"))
 @login_required
 @roles_accepted("admin")
 def dashboard():
@@ -226,6 +234,68 @@ def google_auth():
 def logout():
     logout_user()
     return redirect(url_for("login"))
+
+
+@app.route("/api/post/", methods=["GET"])
+def get_posts():
+    all_posts = Posts.query.all()
+    result = posts_schema.dump(all_posts)
+    return jsonify(result)
+
+
+@app.route("/api/post/", methods=["POST"])
+def add_post():
+    title = request.json["title"]
+    telefone = request.json["telefone"]
+    content = request.json["content"]
+
+    post = Posts(title=title, content=content, telefone=telefone)
+    db.session.add(post)
+    db.session.commit()
+
+    return post_schema.jsonify(post)
+
+
+@app.route("/api/post/<int:post_id>", methods=["GET"])
+def post_detail(post_id):
+    post = Posts.query.get(post_id)
+    return post_schema.jsonify(post)
+
+
+@app.route("/api/post/<int:id>", methods=["PUT"])
+def post_update(id):
+    post = get_post(id)
+    title = request.json["title"]
+    telefone = request.json["telefone"]
+    content = request.json["content"]
+
+    post.title = title
+    post.telefone = telefone
+    post.content = content
+
+    db.session.commit()
+    return post_schema.jsonify(post)
+
+
+@app.route("/api/post/<int:id>", methods=["DELETE"])
+def post_delete(id):
+    post = get_post(id)
+    db.session.delete(post)
+    db.session.commit()
+    return post_schema.jsonify(post)
+
+
+@app.route("/api/user/", methods=["GET"])
+def get_user():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
+    return jsonify(result)
+
+
+@app.route("/api/user/<id>", methods=["GET"])
+def user_detail(id):
+    user = User.query.get(id)
+    return user_schema.jsonify(user)
 
 
 # TODO: redirecionar corretamente para pagina de login
