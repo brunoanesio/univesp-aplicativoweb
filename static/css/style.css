@@ -1,19 +1,14 @@
 h1 {
-  border: 2px DodgerBlue solid;
   color: white;
   text-align: center;
   padding: 2px;
-  background: DodgerBlue;
+  background: #1e1e2e;
   font-size: 30px;
   top: 420px;
-  text-decoration-line: underline;
-  text-decoration-thickness: 2px;
-  text-decoration-color: white;
-  text-shadow: 2px 2px 5px blue;
+  text-shadow: 2px 2px 5px black;
 }
-h2 {
-  /* border: 4px DodgerBlue solid; */
-  color: black;
+a:link {
+  text-decoration: none;
 }
 .special:hover {
   color: lightblue;
@@ -22,7 +17,7 @@ h2 {
   text-align: center;
 }
 body {
-  background: DodgerBlue;
+  background: #1e1e2e;
   background-repeat: no-repeat;
   background-size: 480px 380px;
   background-position: 50% -30%;
@@ -31,35 +26,28 @@ p {
   border: 2px white solid;
 }
 .bg-dark {
-  background-color: white;
+  background-color: #1e1e2e;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
   background-repeat: no-repeat;
   background-size: 35px 35px;
   background-position: top;
   background-position: 85.5% 40%;
 }
-.nav-link {
-  color: yellow;
-}
 .navbar-dark .navbar-brand {
   color: black;
   text-transform: capitalize;
   text-shadow: 2px 2px 5px white;
   text-indent: 4px;
-  /* font-family: "Times New Roman", Times, serif; */
 }
 .navbar-dark .navbar-nav .nav-link.active,
-.navbar-dark .navbar-nav .show > .nav-link {
+.navbar-dark .navbar-nav .show {
   color: black;
-  text-decoration-line: underline;
-  text-transform: uppercase;
   text-shadow: 2px 2px 5px white;
   font-weight: bold;
 }
 a.navbar-brand:hover {
   color: lightblue !important;
 }
-
 div.container-fluid {
   background-repeat: no-repeat;
   background-size: 30px 30px;
@@ -74,7 +62,6 @@ div.card {
   letter-spacing: 0.05rem;
   padding: 0.75rem 1rem;
 }
-
 .btn-google {
   color: white !important;
   background-color: #ea4335;
