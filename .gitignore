@@ -8,3 +8,4 @@ migrations/
 
 .ropeproject
 .dir-locals.el
+tests/__pycache__
