@@ -17,7 +17,11 @@
         </style>
         <hr />
     {% endfor %}
-    <script>
-        window.alert("Seja bem-vindo(a) ao Conheça e Contrate! Procure um prestador de serviços ou inscreva-se!")
+    <script type="text/javascript">
+        var alerted = localStorage.getItem('alerted') || '';
+        if (alerted != 'yes') {
+            alert("Seja bem-vindo(a) ao Conheça e Contrate! Procure um prestador de serviços ou inscreva-se!");
+            localStorage.setItem('alerted','yes');
+        }
     </script>
 {% endblock content %}
