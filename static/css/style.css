@@ -9,28 +9,27 @@ h1 {
   top: 420px;
 }
 a:link {
-  color: black;
+  color: white;
   text-decoration: none;
 }
 a:visited {
-  color: black;
+  color: white;
 }
 a:hover {
-  color: lightblue;
+  color: #86b4fa;
 }
 .aligncenter {
   text-align: center;
 }
 body {
-  background-image: url("https://www.projuris.com.br/wp-content/uploads/2021/05/engineering-civil-construction-engineers-discussi-2022-03-21-13-34-41-utc-scaled.webp");
-  background-repeat: no-repeat;
+  background-image: url("../images/bg.webp");
+  background-position: center center;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .badge-primary {
   background-color: transparent;
-}
-p {
-  border: 2px white solid;
 }
 .btn-login {
   font-size: 0.9rem;
@@ -41,7 +40,19 @@ p {
   color: white !important;
   background-color: #ea4335;
 }
-#navbarExample01 {
-  color: black;
+a.btn-google:hover {
+  background-color: #ea4345 !important;
+}
+#navbarSupportedContent {
+  color: white !important;
   font-weight: 500;
+}
+#register1 a:link {
+  color: var(--bs-link-color);
+}
+#register1 a:visited {
+  color: var(--bs-link-color);
+}
+#register1 a:hover {
+  color: #86b4fa;
 }
