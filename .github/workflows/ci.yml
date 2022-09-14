@@ -43,7 +43,7 @@ jobs:
         pip install black djlint isort
     - name: Format files
       run: |
-        djlint --reformat --format-css --format-js --warn templates/*
+        djlint --reformat --warn templates/*
         isort .
         black .
         
