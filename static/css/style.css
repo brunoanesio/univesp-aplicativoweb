@@ -56,3 +56,18 @@ a.btn-google:hover {
 #register1 a:hover {
   color: #86b4fa;
 }
+.div1 {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+.div2 {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+.gap {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
