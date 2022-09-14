@@ -4,4 +4,10 @@ exclude =
     .git,
     __pycache__,
     templates,
-    static
+    static,
+    venv,
+    .github,
+    .ropeproject,
+    migrations,
+    .pytest_cache,
+    database.db
