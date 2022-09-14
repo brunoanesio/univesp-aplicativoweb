@@ -51,6 +51,7 @@ def create_app():
     app.config["SECRET_KEY"] = secret_key
     app.config["SQLALCHEMY_DATABASE_URI"] = database_file
     app.config["SESSION_COOKIE_NAME"] = "my_session"
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
     app.config["GOOGLE_CLIENT_ID"] = os.getenv("GOOGLE_CLIENT_ID")
     app.config["GOOGLE_CLIENT_SECRET"] = os.getenv("GOOGLE_CLIENT_SECRET")
