@@ -20,7 +20,7 @@
         </title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow">
             <div class="container-fluid">
                 <a class="navbar-brand nav-link mt-2 mt-lg-0" target="_self" href="#">
                     <strong>Logo</strong></a>
@@ -48,12 +48,6 @@
                             </li>
                         {% elif current_user.is_active %}
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#" onclick="log_confirm()">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                    Logout
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{{ url_for('create') }}">
                                     <i class="fa-solid fa-address-card"></i>
                                 Registre-se aqui</a>
@@ -68,10 +62,28 @@
                     </ul>
                     <ul class="navbar-nav list-inline">
                         {% if current_user.is_active %}
-                            <li>
-                                <a class="nav-link" href="#perfil_usuario" rel="nofollow">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   role="button"
+                                   href="#perfil_usuario"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
                                     <i class="fa-regular fa-user"></i>
                                 {{ current_user.username }}</a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Meu Perfil</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           aria-current="page"
+                                           href="#"
+                                           onclick="log_confirm()">
+                                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                            Logout
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         {% endif %}
                         <li class="nav-item">
