@@ -22,7 +22,6 @@ a:hover {
   text-align: center;
 }
 body {
-  color: white;
   background-image: url("../images/bg.webp");
   background-position: center center;
   background-size: cover;
@@ -58,7 +57,7 @@ a.btn-google:hover {
   color: #86b4fa;
 }
 .gap {
-  width: 25;
-  height: 25;
+  width: 25px;
+  height: 25px;
   display: inline-block;
 }
