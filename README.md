@@ -8,15 +8,15 @@ Resumo: Facilitar e tornar mais ágil o contato entre o prestador de serviço de
 
 Framework usado: Flask
 
-API utilizada: OAuthlib para login com Google
+API utilizada: OAuthlib, Google
 
 Banco de dados: PostgreSQL
 
-Serviço nuvem: Heroku
+Serviço nuvem:
 
 Opções de acessibilidade: VLibras
 
-Testes automatizados:
+Testes automatizados e Integração Contínua: GitHub Actions
 
 ---
 
@@ -24,8 +24,8 @@ Testes automatizados:
 |-
 |Amanda de Araújo Belo
 |Bruno Henrique Anesio Camargo
-|Cristiano Fernando Gonçalves
+|Jéssika Mara Picoloto de Oliveira
 |Mágilo Antunes Evangelista de Oliveira
-|Mario Fernandes Vasques Junior
-|Murilo Leonel Pinton
+|Márcia Letícia Falavigna
+|Milena da Silva Vicente
 |Tarcísio José da Silva
