@@ -1,6 +1,6 @@
 # **UNIVESP - Projeto Integrador**
 
-[![Flask CI](https://github.com/brunoanesio/univesp-aplicativoweb/actions/workflows/flask.yml/badge.svg?branch=develop)](https://github.com/brunoanesio/univesp-aplicativoweb/actions/workflows/flask.yml)
+[![CI](https://github.com/brunoanesio/univesp-aplicativoweb/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/brunoanesio/univesp-aplicativoweb/actions/workflows/ci.yml)
 
 ## Tema do Projeto: **Desenvolvimento de software para localizar prestadores de serviço de construção civil**
 
