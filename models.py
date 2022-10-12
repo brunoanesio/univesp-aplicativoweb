@@ -2,7 +2,7 @@ import datetime
 
 from flask_security.core import RoleMixin, UserMixin
 
-from app import db
+from app import db, ma
 
 roles_users = db.Table(
     "roles_users",
@@ -52,3 +52,19 @@ class Posts(db.Model):  # type: ignore
 
     def __repr__(self):
         return "<title %r" % self.id
+
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ("username", "email")
+
+
+class PostSchema(ma.Schema):
+    class Meta:
+        fields = ("title", "telefone", "content")
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
+post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
