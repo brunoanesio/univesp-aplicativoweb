@@ -11,7 +11,7 @@ roles_users = db.Table(
 )
 
 
-class Role(db.Model, RoleMixin):  # type: ignore
+class Role(db.Model, RoleMixin):
     __tablename__ = "role"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +21,7 @@ class Role(db.Model, RoleMixin):  # type: ignore
         return self.name
 
 
-class User(db.Model, UserMixin):  # type: ignore
+class User(db.Model, UserMixin):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):  # type: ignore
         return "<User %r" % self.email
 
 
-class Posts(db.Model):  # type: ignore
+class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     title = db.Column(db.String(80), nullable=False)

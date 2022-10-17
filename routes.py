@@ -76,10 +76,10 @@ def post(post_id):
 @app.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
-    if request.method == "POST":  # type: ignore
-        title = request.form["title"]  # type: ignore
-        content = request.form["create"]  # type: ignore
-        telefone = request.form["telefone"]  # type: ignore
+    if request.method == "POST":
+        title = request.form["title"]
+        content = request.form["create"]
+        telefone = request.form["telefone"]
 
         if not title or not content or not telefone:
             flash("É obrigatório preencher todas as informações!", "info")
@@ -97,10 +97,10 @@ def create():
 def edit(id):
     post = get_post(id)
 
-    if request.method == "POST":  # type: ignore
-        title = request.form["title"]  # type: ignore
-        content = request.form["create"]  # type: ignore
-        telefone = request.form["telefone"]  # type: ignore
+    if request.method == "POST":
+        title = request.form["title"]
+        content = request.form["create"]
+        telefone = request.form["telefone"]
 
         if not title or not content:
             flash("É obrigatório preencher todas as informações!", "info")
