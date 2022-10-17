@@ -8,6 +8,9 @@ h1 {
   font-size: 30px;
   top: 420px;
 }
+#desc {
+  color: white;
+}
 a:link {
   color: white;
   text-decoration: none;
@@ -68,11 +71,9 @@ a.btn-google:hover {
 .form-control {
   font-size: 18px;
   font-weight: 500;
-  border: unset;
 }
 .form-group {
   color: white;
-  border: unset;
   font-size: 20px;
 }
 .header {
