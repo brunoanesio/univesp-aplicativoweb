@@ -6,16 +6,16 @@
             Conheça e contrate: Serviços em Dois Córregos
         {% endblock title %}
     </h1>
-    {% for post in posts %}
-        <a href="{{ url_for('post', post_id=post['id'])}}" class="special">
-            <h2>{{ post['title'] }}</h2>
+    <br/>
+    <h2 id="desc">Descrição do app/site</h2>
+    <p id="desc">Projeto Integrador da UNIVESP</p>
+    <h2 id="desc">Perfis</h2>
+    <p id="desc">current id = {{ current_user.id }}</p>
+    {% for user in users %}
+        <a href="{{ url_for('user', user_id=user['id'])}}" class="special">
+            <h2>{{ user['username'] }}</h2>
+            <a href="/update/{{ user.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
         </a>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
-        <style>
-        .badge-primary{
-            color:black;
-        }
-        </style>
         <hr />
     {% endfor %}
     <script type="text/javascript">
