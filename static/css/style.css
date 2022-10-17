@@ -1,11 +1,11 @@
 * {
   font-family: "Quicksand", sans-serif;
 }
-h1 {
+#main-header {
   color: white;
   text-align: center;
   padding: 2px;
-  font-size: 30px;
+  font-size: 40px;
   top: 420px;
 }
 #desc {
