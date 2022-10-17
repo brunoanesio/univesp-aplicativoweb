@@ -7,18 +7,17 @@
         <form method="post">
             <div class="form-group">
                 <label for="title">Edite seu nome:</label>
-                <div class="form-group mb-3">{{ form.username(class_="form-control",value=user['username'])}}</div>
+                <div class="form-group mb-3">{{ form.username(class_="form-control",value=user['username']) }}</div>
             </div>
             <br />
             <div class="form-group">
                 <label for="telefone">Edite seu telefone:</label>
-                <div class="form-group mb-3">{{ form.phone(class_="form-control",value=user['phone'])}}</div>
+                <div class="form-group mb-3">{{ form.phone(class_="form-control",value=user['phone']) }}</div>
             </div>
             <br />
             <div class="form-group">
                 <label for="content">Edite suas habilidades/experiências:</label>
-                <div class="form-group mb-3">{{ form.content(class_="form-control",value=user['content'])}}</div>
-                <textarea name="create" placeholder="Edite suas habilidades/experiências" class="form-control">{{ request.form['content'] or user['content'] }}</textarea>
+                <div class="form-group mb-3">{{ form.content(class_="form-control",placeholder=user['content']) }}</div>
             </div>
             <br />
             <br />
@@ -26,7 +25,7 @@
                 <button type="submit"
                         class="btn btn-primary"
                         onclick="window.alert('Suas informações foram atualizadas!')">
-                    Enviar
+                    Confirmar
                 </button>
             </div>
         </form>
