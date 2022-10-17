@@ -2,8 +2,8 @@
 {% block content %}
     <body>
         <br />
-        <br />
-        <h2>Editar "{{ post['title'] }}"</h2>
+        <h2 class="header">Editar "{{ post['title'] }}"</h2>
+        <span class="badge badge-primary">{{ post['created'] }}</span>
         <br />
         <form method="post">
             <div class="form-group">
