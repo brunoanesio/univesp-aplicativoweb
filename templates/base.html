@@ -51,12 +51,6 @@
                                     <i class="fa-solid fa-user"></i>
                                 Login/Criar Conta</a>
                             </li>
-                        {% elif current_user.is_active %}
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{ url_for('create') }}">
-                                    <i class="fa-solid fa-address-card"></i>
-                                Registre-se aqui</a>
-                            </li>
                         {% endif %}
                         {% if current_user.has_role('admin') %}
                             <li class="nav-item">
@@ -71,14 +65,14 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle"
                                    role="button"
-                                   href="#perfil_usuario"
+                                   href="#"
                                    data-bs-toggle="dropdown"
                                    aria-expanded="false">
                                     <i class="fa-regular fa-user"></i>
                                 {{ current_user.username }}</a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li>
-                                        <a class="dropdown-item" href="#">Meu Perfil</a>
+                                        <a class="dropdown-item" href="{{ current_user.id }}">Meu Perfil</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item"
