@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="gap"></div>
-    <h1>
+    <h1 id="main-header">
         {% block title %}
             Conheça e contrate: Serviços em Dois Córregos
         {% endblock title %}
     </h1>
     <br/>
-    <h2 id="desc">Descrição do app/site</h2>
-    <p id="desc">Projeto Integrador da UNIVESP</p>
-    <h2 id="desc">Perfis</h2>
-    <p id="desc">current id = {{ current_user.id }}</p>
+    <!-- <h2 id="desc">Descrição do app/site</h2> -->
+    <!-- <p id="desc">Projeto Integrador da UNIVESP</p> -->
+    <h1 id="desc">Perfis</h1>
+    <br/>
     {% for user in users %}
         <a href="{{ url_for('user', user_id=user['id'])}}" class="special">
             <h2>{{ user['username'] }}</h2>
-            <a href="/update/{{ user.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
+            {% if user['id'] == current_user.id %}
+                <a href="/update/{{ user.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
+                <a href="/delete/{{ user.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
+            {% endif %}
         </a>
         <hr />
     {% endfor %}
@@ -23,6 +26,12 @@
         if (alerted != 'yes') {
             alert("Seja bem-vindo(a) ao Conheça e Contrate! Procure um prestador de serviços ou inscreva-se!");
             localStorage.setItem('alerted','yes');
+        }
+        function del_confirm() {
+            var logout = confirm("Deseja realmente deletar?")
+            if !(logout) {
+                location.href="#"
+            }
         }
     </script>
 {% endblock content %}
