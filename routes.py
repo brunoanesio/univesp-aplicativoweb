@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 from flask_security.decorators import roles_accepted
@@ -146,10 +146,22 @@ def update(id):
             user.content = content
 
             db.session.commit()
+            return redirect(url_for("index"))
         except Exception as e:
             flash(e, "danger")
 
     return render_template("update.html", user=user, form=form)
+
+
+@app.route("/delete/<int:id>", methods=("GET", "POST"), strict_slashes=False)
+def delete(id):
+    user = get_user(id)
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for("index"))
+    except Exception as e:
+        flash(e, "Erro ao deletar o usuário!")
 
 
 @app.route("/login/google")
@@ -188,6 +200,7 @@ def google_auth():
         user_datastore.add_role_to_user(user, default_role)
         db.session.add(user)
         db.session.commit()
+        # return redirect(url_for(user(user.id)))
     login_user(user)
     return redirect(url_for("index"))
 
