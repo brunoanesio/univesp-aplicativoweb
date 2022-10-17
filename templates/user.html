@@ -2,20 +2,19 @@
 {% block content %}
     <title>
         {% block title %}
-            Contrate: {{ post['title'] }}
+            Contrate: {{ user['username'] }}
         {% endblock title %}
     </title>
     <body>
         <br/>
-        <h2 class="header">Contrate: {{ post['title'] }}</h2>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
+        <h2 class="header">Contrate: {{ user['username'] }}</h2>
         <br/>
         <div class="box">
-            <span class="exp">Experiências: {{ post['content'] }}</span>
+            <span class="exp">Experiências: {{ user['content'] }}</span>
         </div>
         <br/>
         <div class="box2">
-            <span class="tel">Telefone: {{ post['telefone'] }}</span>
+            <span class="tel">Telefone: {{ user['phone'] }}</span>
         </div>
         <br/>
         <a class="btn" id="wsapp" target="_blank" onclick="goto_wsapp()">
@@ -25,7 +24,7 @@
     </body>
     <script type="text/javascript">
         function goto_wsapp () {
-            let tel = {{ post['telefone'] }}
+            let tel = {{ user['telefone'] }}
             window.open(`https://api.whatsapp.com/send?phone=55${tel}`, '_blank')
         }
     </script>
