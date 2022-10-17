@@ -24,7 +24,7 @@
     </body>
     <script type="text/javascript">
         function goto_wsapp () {
-            let tel = {{ user['telefone'] }}
+            let tel = {{ user['phone'] }}
             window.open(`https://api.whatsapp.com/send?phone=55${tel}`, '_blank')
         }
     </script>
