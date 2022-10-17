@@ -27,6 +27,8 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    phone = db.Column(db.String(12), nullable=False)
+    content = db.Column(db.String(200), nullable=False)
     pwd = db.Column(db.String(300), nullable=False, unique=True)
     fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False)
     roles = db.relationship(
@@ -43,28 +45,11 @@ class User(db.Model, UserMixin):
         return "<User %r" % self.email
 
 
-class Posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    title = db.Column(db.String(80), nullable=False)
-    telefone = db.Column(db.String(11), nullable=False)
-    content = db.Column(db.String(200), nullable=False)
-
-    def __repr__(self):
-        return "<title %r" % self.id
-
-
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ("username", "email")
-
-
-class PostSchema(ma.Schema):
-    class Meta:
-        fields = ("title", "telefone", "content")
+        # fields = ("username", "email")
+        fields = ("username", "email", "phone", "content")
 
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
-post_schema = PostSchema()
-posts_schema = PostSchema(many=True)
