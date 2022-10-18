@@ -131,7 +131,7 @@ def register():
     )
 
 
-@app.route("/update/<int:id>", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/update/<int:id>", methods=["GET", "POST"], strict_slashes=False)
 def update(id):
     form = register_form()
     user = get_user(id)
@@ -153,7 +153,7 @@ def update(id):
     return render_template("update.html", user=user, form=form)
 
 
-@app.route("/delete/<int:id>", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/delete/<int:id>", methods=["GET", "POST"], strict_slashes=False)
 def delete(id):
     user = get_user(id)
     try:
@@ -225,7 +225,49 @@ def user_detail(id):
     return user_schema.jsonify(user)
 
 
-# TODO: redirecionar corretamente para pagina de login
+@app.route("/api/user/", methods=["POST"])
+def add_user():
+    email = request.json["email"]
+    username = request.json["username"]
+    phone = request.json["phone"]
+    content = request.json["content"]
+    pwd = request.json["pwd"]
+
+    user = User(
+        username=username,
+        email=email,
+        pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
+        roles=[],
+        phone=phone,
+        content=content,
+        fs_uniquifier=uuid.uuid4().hex,
+    )
+    role = user_datastore.find_or_create_role("guest")
+    user_datastore.add_role_to_user(user, role)
+
+    db.session.add(user)
+    db.session.commit()
+    return user_schema.jsonify(user)
+
+
+@app.route("/api/user/<int:id>", methods=["PUT"])
+def user_update(id):
+    user = get_user(id)
+    email = request.json["email"]
+    username = request.json["username"]
+    phone = request.json["phone"]
+    content = request.json["content"]
+
+    user.email = email
+    user.username = username
+    user.phone = phone
+    user.content = content
+
+    db.session.commit()
+
+    return user_schema.jsonify(user)
+
+
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for("login"))
