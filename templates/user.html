@@ -21,6 +21,12 @@
             <i class="fa-brands fa-whatsapp"></i>
             Conversar por WhatsApp
         </a>
+        <br/>
+        <br/>
+        {% if user['id'] == current_user.id %}
+            <a href="/update/{{ user.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
+            <a href="/delete/{{ user.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
+        {% endif %}
     </body>
     <script type="text/javascript">
         function goto_wsapp () {
