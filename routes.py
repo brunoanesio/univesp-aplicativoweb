@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_bcrypt import check_password_hash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 from flask_security.decorators import roles_accepted
@@ -14,11 +14,8 @@ from werkzeug.routing import BuildError
 from app import bcrypt, create_app, db, login_manager, oauth
 from forms import login_form, register_form
 from models import (
-    Posts,
     Role,
     User,
-    post_schema,
-    posts_schema,
     user_schema,
     users_schema,
 )
@@ -48,83 +45,21 @@ def session_handler():
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    posts = Posts.query.all()
-    return render_template("index.html", posts=posts)
+    users = User.query.all()
+    return render_template("index.html", users=users)
 
 
-@app.route("/admin/dashboard", methods=("GET", "POST"))
-@login_required
-@roles_accepted("admin")
-def dashboard():
-    posts = Posts.query.all()
-    return render_template("dashboard.html", posts=posts)
-
-
-def get_post(post_id):
-    post = Posts.query.filter_by(id=post_id).first()
-    if post is None:
+def get_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
         abort(404)
-    return post
+    return user
 
 
-@app.route("/<int:post_id>")
-def post(post_id):
-    post = get_post(post_id)
-    return render_template("post.html", post=post)
-
-
-@app.route("/create", methods=("GET", "POST"))
-@login_required
-def create():
-    if request.method == "POST":  # type: ignore
-        title = request.form["title"]  # type: ignore
-        content = request.form["create"]  # type: ignore
-        telefone = request.form["telefone"]  # type: ignore
-
-        if not title or not content or not telefone:
-            flash("É obrigatório preencher todas as informações!", "info")
-        else:
-            post = Posts(title=title, content=content, telefone=telefone)
-            db.session.add(post)
-            db.session.commit()
-            return redirect(url_for("index"))
-
-    return render_template("create.html")
-
-
-@app.route("/edit/<int:id>", methods=("GET", "POST"))
-@login_required
-def edit(id):
-    post = get_post(id)
-
-    if request.method == "POST":  # type: ignore
-        title = request.form["title"]  # type: ignore
-        content = request.form["create"]  # type: ignore
-        telefone = request.form["telefone"]  # type: ignore
-
-        if not title or not content:
-            flash("É obrigatório preencher todas as informações!", "info")
-        else:
-            post.title = title
-            post.content = content
-            post.telefone = telefone
-            db.session.commit()
-            return redirect(url_for("index"))
-
-    return render_template("edit.html", post=post)
-
-
-@app.route("/delete/<int:id>", methods=("GET", "POST"))
-@login_required
-def delete(id):
-    post = get_post(id)
-
-    try:
-        db.session.delete(post)
-        db.session.commit()
-        return redirect(url_for("index"))
-    except Exception as e:
-        flash(e, "Erro na hora de deletar o post.")
+@app.route("/<int:user_id>")
+def user(user_id):
+    user = get_user(user_id)
+    return render_template("user.html", user=user)
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -155,12 +90,16 @@ def register():
             email = form.email.data
             pwd = form.pwd.data
             username = form.username.data
+            phone = form.phone.data
+            content = form.content.data
 
             newuser = User(
                 username=username,
                 email=email,
                 pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
                 roles=[],
+                phone=phone,
+                content=content,
                 fs_uniquifier=uuid.uuid4().hex,
             )
             default_role = user_datastore.find_or_create_role("guest")
@@ -168,7 +107,6 @@ def register():
 
             db.session.add(newuser)
             db.session.commit()
-            flash("Conta criada com sucesso", "success")
             return redirect(url_for("login"))
 
         except InvalidRequestError:
@@ -193,6 +131,39 @@ def register():
     )
 
 
+@app.route("/update/<int:id>", methods=["GET", "POST"], strict_slashes=False)
+def update(id):
+    form = register_form()
+    user = get_user(id)
+
+    if request.method == "POST":
+        username = form.username.data
+        phone = form.phone.data
+        content = form.content.data
+        try:
+            user.username = username
+            user.phone = phone
+            user.content = content
+
+            db.session.commit()
+            return redirect(url_for("index"))
+        except Exception as e:
+            flash(e, "danger")
+
+    return render_template("update.html", user=user, form=form)
+
+
+@app.route("/delete/<int:id>", methods=["GET", "POST"], strict_slashes=False)
+def delete(id):
+    user = get_user(id)
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for("index"))
+    except Exception as e:
+        flash(e, "Erro ao deletar o usuário!")
+
+
 @app.route("/login/google")
 def google():
     CONF_URL = "https://accounts.google.com/.well-known/openid-configuration"
@@ -212,6 +183,8 @@ def google_auth():
     name = resp.name
     email = resp.email
     pwd = resp.sub
+    phone = ""
+    content = ""
     user = User.query.filter_by(email=email).first()
     if not user:
         user = User(
@@ -219,12 +192,15 @@ def google_auth():
             email=email,
             pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
             roles=[],
+            phone=phone,
+            content=content,
             fs_uniquifier=uuid.uuid4().hex,
         )
         default_role = user_datastore.find_or_create_role("guest")
         user_datastore.add_role_to_user(user, default_role)
         db.session.add(user)
         db.session.commit()
+        # return redirect(url_for(user(user.id)))
     login_user(user)
     return redirect(url_for("index"))
 
@@ -236,57 +212,8 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/api/post/", methods=["GET"])
-def get_posts():
-    all_posts = Posts.query.all()
-    result = posts_schema.dump(all_posts)
-    return jsonify(result)
-
-
-@app.route("/api/post/", methods=["POST"])
-def add_post():
-    title = request.json["title"]
-    telefone = request.json["telefone"]
-    content = request.json["content"]
-
-    post = Posts(title=title, content=content, telefone=telefone)
-    db.session.add(post)
-    db.session.commit()
-
-    return post_schema.jsonify(post)
-
-
-@app.route("/api/post/<int:post_id>", methods=["GET"])
-def post_detail(post_id):
-    post = Posts.query.get(post_id)
-    return post_schema.jsonify(post)
-
-
-@app.route("/api/post/<int:id>", methods=["PUT"])
-def post_update(id):
-    post = get_post(id)
-    title = request.json["title"]
-    telefone = request.json["telefone"]
-    content = request.json["content"]
-
-    post.title = title
-    post.telefone = telefone
-    post.content = content
-
-    db.session.commit()
-    return post_schema.jsonify(post)
-
-
-@app.route("/api/post/<int:id>", methods=["DELETE"])
-def post_delete(id):
-    post = get_post(id)
-    db.session.delete(post)
-    db.session.commit()
-    return post_schema.jsonify(post)
-
-
 @app.route("/api/user/", methods=["GET"])
-def get_user():
+def get_users():
     all_users = User.query.all()
     result = users_schema.dump(all_users)
     return jsonify(result)
@@ -298,7 +225,49 @@ def user_detail(id):
     return user_schema.jsonify(user)
 
 
-# TODO: redirecionar corretamente para pagina de login
+@app.route("/api/user/", methods=["POST"])
+def add_user():
+    email = request.json["email"]
+    username = request.json["username"]
+    phone = request.json["phone"]
+    content = request.json["content"]
+    pwd = request.json["pwd"]
+
+    user = User(
+        username=username,
+        email=email,
+        pwd=bcrypt.generate_password_hash(pwd).decode("utf-8"),
+        roles=[],
+        phone=phone,
+        content=content,
+        fs_uniquifier=uuid.uuid4().hex,
+    )
+    role = user_datastore.find_or_create_role("guest")
+    user_datastore.add_role_to_user(user, role)
+
+    db.session.add(user)
+    db.session.commit()
+    return user_schema.jsonify(user)
+
+
+@app.route("/api/user/<int:id>", methods=["PUT"])
+def user_update(id):
+    user = get_user(id)
+    email = request.json["email"]
+    username = request.json["username"]
+    phone = request.json["phone"]
+    content = request.json["content"]
+
+    user.email = email
+    user.username = username
+    user.phone = phone
+    user.content = content
+
+    db.session.commit()
+
+    return user_schema.jsonify(user)
+
+
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for("login"))

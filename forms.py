@@ -1,6 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, ValidationError
-from wtforms.validators import Email, EqualTo, InputRequired, Length, Optional, Regexp
+from wtforms import PasswordField, StringField, ValidationError, TextAreaField
+from wtforms.validators import (
+    Email,
+    EqualTo,
+    InputRequired,
+    Length,
+    Optional,
+    Regexp,
+    DataRequired,
+)
 
 from models import User
 
@@ -17,7 +25,7 @@ class register_form(FlaskForm):
             InputRequired(),
             Length(3, 20, message="Insira um nome válido"),
             Regexp(
-                "^[A-Za-z][A-Za-z0-9_.]*$",
+                "^[a-zA-Z0-9 ]*$",
                 0,
                 "Nome pode ter somente letras," "números, pontos ou sublinhado",
             ),
@@ -25,6 +33,8 @@ class register_form(FlaskForm):
     )
     email = StringField(validators=[InputRequired(), Email(), Length(1, 64)])
     pwd = PasswordField(validators=[InputRequired(), Length(8, 72)])
+    phone = StringField(validators=[DataRequired()])
+    content = TextAreaField(validators=[DataRequired(), Length(-1, 200)])
     cpwd = PasswordField(
         validators=[
             InputRequired(),

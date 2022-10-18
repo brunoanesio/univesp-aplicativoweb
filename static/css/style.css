@@ -1,12 +1,15 @@
 * {
   font-family: "Quicksand", sans-serif;
 }
-h1 {
+#main-header {
   color: white;
   text-align: center;
   padding: 2px;
-  font-size: 30px;
+  font-size: 40px;
   top: 420px;
+}
+#desc {
+  color: white;
 }
 a:link {
   color: white;
@@ -60,4 +63,51 @@ a.btn-google:hover {
   width: 25px;
   height: 25px;
   display: inline-block;
+}
+.form-label {
+  color: white;
+  font-size: 20px;
+}
+.form-control {
+  font-size: 18px;
+  font-weight: 500;
+}
+.form-group {
+  color: white;
+  font-size: 20px;
+}
+.header {
+  color: white;
+}
+.badge-primary {
+  color: black;
+}
+
+.box,
+.box2,
+.exp,
+.tel {
+  font-size: 20px;
+}
+
+.box,
+.box2 {
+  display: block;
+  clear: both;
+  backdrop-filter: blur(10px);
+  padding: 10px 5px;
+  border-radius: 6px;
+}
+.exp,
+.tel {
+  color: white;
+  font-size: 18px;
+}
+#wsapp {
+  background-color: green;
+  color: white;
+  font-size: 18px;
+}
+#wsapp:hover {
+  background-color: darkgreen;
 }
