@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <title>
+        {% block title %}
+            Contrate: {{ user['username'] }}
+        {% endblock title %}
+    </title>
+    <body>
+        <br/>
+        <h2 class="header">Contrate: {{ user['username'] }}</h2>
+        <br/>
+        <div class="box">
+            <span class="exp">Experiências: {{ user['content'] }}</span>
+        </div>
+        <br/>
+        <div class="box2">
+            <span class="tel">Telefone: {{ user['phone'] }}</span>
+        </div>
+        <br/>
+        <a class="btn" id="wsapp" target="_blank" onclick="goto_wsapp()">
+            <i class="fa-brands fa-whatsapp"></i>
+            Conversar por WhatsApp
+        </a>
+        <br/>
+        <br/>
+        {% if user['id'] == current_user.id %}
+            <a href="/update/{{ user.id }}" class="btn btn-outline-primary btn-sm">Editar</a>
+            <a href="/delete/{{ user.id }}" class="btn btn-outline-danger btn-sm">Deletar</a>
+        {% endif %}
+    </body>
+    <script type="text/javascript">
+        function goto_wsapp () {
+            let tel = {{ user['phone'] }}
+            window.open(`https://api.whatsapp.com/send?phone=55${tel}`, '_blank')
+        }
+    </script>
+{% endblock content %}
