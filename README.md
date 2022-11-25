@@ -14,7 +14,7 @@ API utilizada: OAuthlib, Google
 
 Banco de dados: PostgreSQL
 
-Serviço nuvem:
+Serviço nuvem: Render
 
 Opções de acessibilidade: VLibras
 
